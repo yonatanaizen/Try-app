@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import numpy as np # Not used in the example, but kept if you plan to use it later
-import time # Not used in the example, but kept if you plan to use it later
+
 import io
 
 st.set_page_config(page_title="Uber Pickups Data App", layout="centered")
@@ -16,9 +15,13 @@ if uploaded_file is not None:
     try:
         # Read the file based on its type
         if uploaded_file.name.endswith('.csv'):
+            print(uploaded_file.name)
+
             df = pd.read_csv(uploaded_file)
             st.success("CSV file uploaded successfully!")
         elif uploaded_file.name.endswith('.xlsx'):
+            print(uploaded_file.name)
+
             df = pd.read_excel(uploaded_file)
             st.success("XLSX file uploaded successfully!")
         else:
