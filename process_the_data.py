@@ -41,6 +41,7 @@ class build_p1():
         df_res['name'] = df_res[['lead', 'sec']].max(axis=1).astype(int).astype(str) + '-' + df_res[
             ['lead', 'sec']].min(axis=1).astype(int).astype(str)
         df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות']
+        print(df_res['exit'])
         df_res['arrivel'] = self.data_r['שעת הגעה להר הרצל']
         df_res['time'] = self.data_r['זמן נסיעה']
         df_res['from'] = 'נווה יעקב צפון'
@@ -66,6 +67,8 @@ class build_p1():
 
         df_res['TimeC'] = df_res['Time'].apply(time_y)
         # df_res['TimeC']=df_res['Time'].apply(self.time_y)
+        df_res['time']=pd.to_datetime(df_res['time'], format='%H:%M:%S', errors='coerce').dt.time
+        # print( pd.to_datetime(df_res['time'], format='%H:%M:%S', errors='coerce').dt.time)
 
         df_res['distrbution'] = 'מעל 60'
         df_res.loc[(df_res['time'] >= time(0, 55)) & (df_res['time'] < time(1)), 'distrbution'] = '55-60'
@@ -148,6 +151,8 @@ class build_p2():
         time_y = lambda a: a if str(a) == 'nan' else str(int(a)) + '.' + str(int(round(a - int(a), 4) * 60))
 
         df_res['TimeC'] = df_res['Time'].apply(time_y)
+        df_res['time'] = pd.to_datetime(df_res['time'], format='%H:%M:%S', errors='coerce').dt.time
+
         # df_res['TimeC']=df_res['Time'].apply(self.time_y)
         df_res['distrbution'] = 'מעל 60'
         df_res.loc[(df_res['time'] >= time(0, 55)) & (df_res['time'] < time(1)), 'distrbution'] = '55-60'
