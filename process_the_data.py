@@ -8,6 +8,8 @@ class build_p1():
         data = data.iloc[:, 0:17]
         data.columns = data.iloc[0:1].values.tolist()[0]
         self.data = data.iloc[1:]
+        # self.data['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות']=pd.to_datetime(self.data['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות'], errors='coerce').dt.time
+
         self.filter()  # Automatically filters during init
         self.create_new()
         self.chose_columns()
@@ -190,19 +192,26 @@ def all_t(path):
 
 
     def rep(a):
-        if str(a) == 'nan':
-            return a
-        else:
-            r = str(a).split('.')
-            return time(hour=0, minute=int(r[0]), second=int(r[1]))
-
         try:
-            pd.to_datetime(a)
+            if str(a) == 'nan':
+                return a
+            else:
+                r = str(a).split('.')
+                return time(hour=0, minute=int(r[0]), second=int(r[1]))
         except:
             print(a)
 
+        # try:
+        #     pd.to_datetime(a)
+        # except:
+        #     print(a)
+
 
     end['date'] = end['date'].str.replace('.', '/')
+    print( end['TimeC'].sample(6))
+    # print(end['TimeC'].max())
+
+
     end['TimeC'] = end['TimeC'].apply(rep)
     end['TimeC'] = end['TimeC'].shift(-1)
 
