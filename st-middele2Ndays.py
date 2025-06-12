@@ -81,7 +81,11 @@ if uploaded_files:
 
     c=0
     for uploaded_file in uploaded_files:
-        wb = all_t(uploaded_file)
+        try:
+            wb = all_t(uploaded_file)
+        except:
+            st.write("There is a problem with the file {uploaded_file.name}:")
+            
         for sheet in wb.worksheets:
             c2 = 0
 
