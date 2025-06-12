@@ -60,7 +60,7 @@ class build_p1():
                     df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המיבתר']
                 except:
                     df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המבתר']
-                    
+
         df_res['time'] = self.data_r['זמן נסיעה']
         df_res['from'] = 'נווה יעקב צפון'
         df_res['to'] = 'הדסה עין כרם'
@@ -157,9 +157,12 @@ class build_p2():
             df_res['arrivel'] = self.data_r['שעת הגעה לחיל האוויר']
         except:
             try:
-                df_res['arrivel'] = self.data_r['שעת הגעה לתחנה מרכזית']
+                try:
+                    df_res['arrivel'] = self.data_r['שעת הגעה לתחנה מרכזית']
+                except:
+                    df_res['arrivel'] = self.data_r['שעת הגעה לנווה יעקב']
             except:
-                df_res['arrivel'] = self.data_r['שעת הגעה לנווה יעקב']
+                df_res['arrivel'] = self.data_r['שעת הגעה להתחנה מרכזית']
 
         df_res['time'] = self.data_r['זמן נסיעה']
         df_res['from'] = 'הדסה עין כרם'
