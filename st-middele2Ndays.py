@@ -85,7 +85,7 @@ if uploaded_files:
             wb = all_t(uploaded_file)
         except:
             st.write("There is a problem with the file {uploaded_file.name}:")
-            
+            break
         for sheet in wb.worksheets:
             c2 = 0
 
