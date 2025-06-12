@@ -42,9 +42,21 @@ class build_p1():
         df_res['cluster'] = 3 if df_res['day'].iloc[0] < 6 else 1
         df_res['name'] = df_res[['lead', 'sec']].max(axis=1).astype(int).astype(str) + '-' + df_res[
             ['lead', 'sec']].min(axis=1).astype(int).astype(str)
-        df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות']
+        try:
+            df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות']
+        except:
+            try:
+                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהתחנה המרכזית על פי המצלמות']
+            except:
+                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מנווה יעקב על פי המצלמות']
         print(df_res['exit'])
-        df_res['arrivel'] = self.data_r['שעת הגעה להר הרצל']
+        try:
+            df_res['arrivel'] = self.data_r['שעת הגעה להר הרצל']
+        except:
+            try:
+                df_res['arrivel'] = self.data_r['שעת הגעה להדסה']
+            except:
+                df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המיבתר']
         df_res['time'] = self.data_r['זמן נסיעה']
         df_res['from'] = 'נווה יעקב צפון'
         df_res['to'] = 'הדסה עין כרם'
@@ -128,8 +140,23 @@ class build_p2():
         df_res['cluster'] = 3 if df_res['day'].iloc[0] < 6 else 1
         df_res['name'] = df_res[['lead', 'sec']].max(axis=1).astype(int).astype(str) + '-' + df_res[
             ['lead', 'sec']].min(axis=1).astype(int).astype(str)
-        df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהר הרצל על פי המצלמות']
-        df_res['arrivel'] = self.data_r['שעת הגעה לחיל האוויר']
+        try:
+            df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהר הרצל על פי המצלמות']
+        except:
+            try:
+                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהדסה על פי המצלמות']
+            except:
+                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מגבעת המביתר על פי המצלמות']
+
+
+        try:
+            df_res['arrivel'] = self.data_r['שעת הגעה לחיל האוויר']
+        except:
+            try:
+                df_res['arrivel'] = self.data_r['שעת הגעה לתחנה מרכזית']
+            except:
+                df_res['arrivel'] = self.data_r['שעת הגעה לנווה יעקב']
+
         df_res['time'] = self.data_r['זמן נסיעה']
         df_res['from'] = 'הדסה עין כרם'
         df_res['to'] = 'נווה יעקב צפון'
