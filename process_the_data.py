@@ -168,7 +168,7 @@ class build_p2():
                     except:
                         df_res['arrivel'] = self.data_r['שעת הגעה להתחנה המרכזית']
             except:
-                pass
+                df_res['arrivel'] = self.data_r['שעת הגעה להתחנה המרזית']
 
         df_res['time'] = self.data_r['זמן נסיעה']
         df_res['from'] = 'הדסה עין כרם'
