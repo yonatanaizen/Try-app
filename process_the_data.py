@@ -29,6 +29,16 @@ class build_p1():
                 res = '00.' + str(int(a)) + '.' + str(int(round(a - int(a), 4) * 60))
                 # res=a if  str(a)=='nan' else  str(int(a))+'.'+str(int(round(a-int(a),4)*60))
             return res
+    def find_loc(self,N):
+        'find the location'
+        fr = list(self.data_r.columns)[N]
+        a = 'None'
+        if fr.find('חיל האוויר') != -1: a = 'חיל האוויר'
+        if fr.find('הר הרצל') != -1: a = 'הר הרצל'
+        if fr.find('נווה יעקב') != -1: a = 'נווה יעקב'
+        if fr.find('הדסה עין כרם') != -1: a = 'הדסה עין כרם'
+        if fr.find ('גבעת המיבתר')!= -1 : a='גבעת המיבתר'
+        return a
 
     def create_new(self):
         df_res = pd.DataFrame()
@@ -37,9 +47,14 @@ class build_p1():
         # print(self.path.name)
         # df_res['date'] = self.path.split('\\')[-1][:8]
         df_res['date'] = self.path.name[:8]
-        print(df_res['date'].iloc[0])
+        # print(df_res['date'].iloc[0])
+
         df_res['day'] = (pd.to_datetime(df_res['date'].iloc[0]).weekday() + 1) % 6
+
+
         df_res['cluster'] = 3 if df_res['day'].iloc[0] < 6 else 1
+        # df_res['day'] = self.path.split('\\')[-1][:2]
+
         df_res['name'] = df_res[['lead', 'sec']].max(axis=1).astype(int).astype(str) + '-' + df_res[
             ['lead', 'sec']].min(axis=1).astype(int).astype(str)
         try:
@@ -61,10 +76,19 @@ class build_p1():
                 except:
                     df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המבתר']
 
+        df_res.loc[df_res['arrivel'].astype(str) == '1 day, 0:00:00', 'arrivel'] = '00:00:00'
+        df_res.loc[df_res['exit'].astype(str) == '1 day, 0:00:00', 'exit'] = '00:00:00'
+
         df_res['time'] = self.data_r['זמן נסיעה']
-        df_res['from'] = 'נווה יעקב צפון'
-        df_res['to'] = 'הדסה עין כרם'
-        df_res['direction'] = 'הדסה עין כרם'
+        # print(self.data_r.columns)
+
+
+        # df_res['from'] = 'נווה יעקב צפון'
+        df_res['from'] = self.find_loc(2)
+        # df_res['to'] = 'הדסה עין כרם'
+        df_res['to'] = self.find_loc(6)
+
+        df_res['direction'] = self.find_loc(6)
         df_res['comments'] = np.nan
         df_res['hours'] = np.nan
         df_res['exit'] = pd.to_datetime(df_res['exit'], format='%H:%M:%S', errors='coerce').dt.time
@@ -134,14 +158,31 @@ class build_p2():
                 # res=a if  str(a)=='nan' else  str(int(a))+'.'+str(int(round(a-int(a),4)*60))
             return res
 
+    def find_loc(self,N):
+        'find the location'
+        fr = list(self.data_r.columns)[N]
+        a = 'None'
+        if fr.find('חיל האוויר') != -1: a = 'חיל האוויר'
+        if fr.find('הר הרצל') != -1: a = 'הר הרצל'
+        if fr.find('נווה יעקב') != -1: a = 'נווה יעקב'
+        if fr.find('הדסה עין כרם') != -1: a = 'הדסה עין כרם'
+        if fr.find ('גבעת המיבתר')!= -1 : a='גבעת המיבתר'
+
+        return a
+
     def create_new(self):
         df_res = pd.DataFrame()
         df_res['lead'] = self.data_r['קרון מוביל']
         df_res['sec'] = self.data_r['קרון משני']
+
         # df_res['date'] = self.path.split('\\')[-1][:8]
         df_res['date'] = self.path.name[:8]
         df_res['day'] = (pd.to_datetime(df_res['date'].iloc[0]).weekday() + 1) % 6
+        # df_res['day'] = str(df_res['date'].iloc[0])[:2]
+
         df_res['cluster'] = 3 if df_res['day'].iloc[0] < 6 else 1
+        # df_res['day'] = self.path.split('\\')[-1][:2]
+
         df_res['name'] = df_res[['lead', 'sec']].max(axis=1).astype(int).astype(str) + '-' + df_res[
             ['lead', 'sec']].min(axis=1).astype(int).astype(str)
         try:
@@ -170,10 +211,21 @@ class build_p2():
             except:
                 df_res['arrivel'] = self.data_r['שעת הגעה להתחנה המרזית']
 
+        df_res.loc[df_res['arrivel'].astype(str) == '1 day, 0:00:00','arrivel'] = '00:00:00'
+        df_res.loc[df_res['exit'].astype(str) == '1 day, 0:00:00', 'exit'] = '00:00:00'
+
+        # df_res.loc[df_res['arrivel']=='1/1/1900  12:00:00 AM','arrivel']='00:00:00'
+        # df_res.loc[df_res['exit'] == '1/1/1900  12:00:00 AM', 'exit'] = '00:00:00'
         df_res['time'] = self.data_r['זמן נסיעה']
-        df_res['from'] = 'הדסה עין כרם'
-        df_res['to'] = 'נווה יעקב צפון'
-        df_res['direction'] = 'נווה יעקב צפון'
+        # df_res['from'] = 'הדסה עין כרם'
+        # df_res['to'] = 'נווה יעקב צפון'
+        # df_res['direction'] = 'נווה יעקב צפון'
+        # df_res['from'] = 'נווה יעקב צפון'
+        df_res['from'] = self.find_loc(2)
+        # df_res['to'] = 'הדסה עין כרם'
+        df_res['to'] = self.find_loc(6)
+
+        df_res['direction'] = self.find_loc(6)
         df_res['comments'] = np.nan
         df_res['hours'] = np.nan
         df_res['exit'] = pd.to_datetime(df_res['exit'], format='%H:%M:%S', errors='coerce').dt.time
@@ -229,6 +281,8 @@ def all_t(path):
 
 
     end=pd.concat([a.end,b.end])
+    end['day']=end['date'].astype(str).apply(lambda a:a[:2])
+
 
 
     def rep(a):
@@ -238,8 +292,21 @@ def all_t(path):
             else:
                 r = str(a).split('.')
                 return time(hour=0, minute=int(r[0]), second=int(r[1]))
+
         except:
             print(a)
+
+    def find_the_gap(a):
+        'function that solve the prblome that  time apper with year in part of the time '
+        try:
+            return  str(a).split()[1]
+        except:
+            return a
+
+        # return '0'+ str(a.split()[1]) if len(a.split()) > 1 else a
+
+
+
 
         # try:
         #     pd.to_datetime(a)
@@ -260,6 +327,14 @@ def all_t(path):
     X_list=end[end['date']=='x'].index.tolist()
 
     end.columns = ['תאריך','יום','סיווג',"מס' קרון מוביל","מס'קרון משני",'שם רכבת','שעת יציאה','שעת הגעה','משך נסיעה','מוצא','יעד','כיוון','הערות','טווח שעות','תדירות','התפלגות משך נסיעה','הגדרות נסיעה']
+
+    # end['שעת הגעה']=pd.to_datetime(end['שעת הגעה'],errors='coerce',format='%Y-%m-%d %H:%M:%S').dt.time
+    # pd.to_datetime(X, ).dt.time
+    end['שעת יציאה']=end['שעת יציאה'].apply(find_the_gap)
+    end['שעת הגעה']=end['שעת הגעה'].apply(find_the_gap)
+    # end['שעת יציאה'] = pd.to_datetime(end['שעת יציאה'],errors='coerce',format='%Y-%m-%d %H:%M:%S').dt.time
+    print(end['שעת יציאה'])
+
 
 
     import openpyxl
