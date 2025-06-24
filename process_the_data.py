@@ -1,7 +1,6 @@
 import pandas as pd
-from datetime import time
 import numpy as np
-
+from datetime import time
 class build_p1():
     def __init__(self, path):
         self.path = path
@@ -65,10 +64,7 @@ class build_p1():
             df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות']
         except:
             try:
-                try:
-                    df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהתחנה המרכזית על פי המצלמות']
-                except:
-                    df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מגבעת המבתר על פי המצלמות']
+                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהתחנה המרכזית על פי המצלמות']
             except:
                 df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מנווה יעקב על פי המצלמות']
         print(df_res['exit'])
@@ -79,10 +75,7 @@ class build_p1():
                 df_res['arrivel'] = self.data_r['שעת הגעה להדסה']
             except:
                 try:
-                    try:
-                        df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המיבתר']
-                    except:
-                        df_res['arrivel'] = self.data_r['שעת הגעה לנווה יעקב']
+                    df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המיבתר']
                 except:
                     df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המבתר']
 
@@ -200,22 +193,19 @@ class build_p2():
         df_res['name'] = df_res[['lead', 'sec']].max(axis=1).astype(int).astype(str) + '-' + df_res[
             ['lead', 'sec']].min(axis=1).astype(int).astype(str)
         try:
-            df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהר הרצל על פי המצלמות']
+            try:
+                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהר הרצל על פי המצלמות']
+            except:
+                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מגבעת המבתר על פי המצלמות']
         except:
             try:
-                try:
-                    df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהדסה על פי המצלמות']
-                except:
-                    df_res['exit'] = self.data_r['זמן בפועל יציאת מגבעת המבתר על פי המצלמות']
+                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהדסה על פי המצלמות']
             except:
                 df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מגבעת המביתר על פי המצלמות']
 
 
         try:
-            try:
-                df_res['arrivel'] = self.data_r['שעת הגעה לחיל האוויר']
-            except:
-                df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המבתר']
+            df_res['arrivel'] = self.data_r['שעת הגעה לחיל האוויר']
         except:
             try:
                 try:
