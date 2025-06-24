@@ -1,6 +1,7 @@
 import pandas as pd
-import numpy as np
 from datetime import time
+import numpy as np
+
 class build_p1():
     def __init__(self, path):
         self.path = path
