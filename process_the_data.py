@@ -78,7 +78,10 @@ class build_p1():
                 df_res['arrivel'] = self.data_r['שעת הגעה להדסה']
             except:
                 try:
-                    df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המיבתר']
+                    try:
+                        df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המיבתר']
+                    except:
+                        df_res['arrivel'] = self.data_r['שעת הגעה לנווה יעקב']
                 except:
                     df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המבתר']
 
