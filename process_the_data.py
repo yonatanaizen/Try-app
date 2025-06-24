@@ -64,7 +64,10 @@ class build_p1():
             df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות']
         except:
             try:
-                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהתחנה המרכזית על פי המצלמות']
+                try:
+                    df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהתחנה המרכזית על פי המצלמות']
+                except:
+                    df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מגבעת המבתר על פי המצלמות']
             except:
                 df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מנווה יעקב על פי המצלמות']
         print(df_res['exit'])
@@ -196,13 +199,19 @@ class build_p2():
             df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהר הרצל על פי המצלמות']
         except:
             try:
-                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהדסה על פי המצלמות']
+                try:
+                    df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהדסה על פי המצלמות']
+                except:
+                    df_res['exit'] = self.data_r['זמן בפועל יציאת מגבעת המבתר על פי המצלמות']
             except:
                 df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מגבעת המביתר על פי המצלמות']
 
 
         try:
-            df_res['arrivel'] = self.data_r['שעת הגעה לחיל האוויר']
+            try:
+                df_res['arrivel'] = self.data_r['שעת הגעה לחיל האוויר']
+            except:
+                df_res['arrivel'] = self.data_r['שעת הגעה לגבעת המבתר']
         except:
             try:
                 try:
