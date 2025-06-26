@@ -205,7 +205,11 @@ class build_p2():
             ['lead', 'sec']].min(axis=1).astype(int).astype(str)
         try:
             try:
-                df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהר הרצל על פי המצלמות']
+                try:
+                    df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהר הרצל על פי המצלמות']
+                except:
+                    df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מהתחנה המרכזית על פי המצלמות']
+
             except:
                 df_res['exit'] = self.data_r['זמן בפועל יציאת רכבות מגבעת המבתר על פי המצלמות']
         except:
