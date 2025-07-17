@@ -362,9 +362,12 @@ def all_t(path):
     end['שעת יציאה']=end['שעת יציאה'].apply(find_the_gap)
     end['שעת הגעה']=end['שעת הגעה'].apply(find_the_gap)
     # end['שעת יציאה'] = pd.to_datetime(end['שעת יציאה'],errors='coerce',format='%Y-%m-%d %H:%M:%S').dt.time
-    print(end['שעת יציאה'])
+    # print(end['שעת יציאה'])
+    # print(end[['תאריך']].head())
 
-
+    con=lambda a: a[:-2] +'20'+a[-2:]  if len(a)>3 else a # solve the problome there is only 2 digit for year 
+    end['תאריך']=end['תאריך'].apply(con)
+    # end['תאריך'] = pd.to_datetime(end['תאריך'], format='%d/%m/%y').dt.date
 
     import openpyxl
 
