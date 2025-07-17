@@ -365,7 +365,7 @@ def all_t(path):
     # print(end['שעת יציאה'])
     # print(end[['תאריך']].head())
 
-    con=lambda a: a[:-2] +'20'+a[-2:]  if len(a)>3 else a # solve the problome there is only 2 digit for year 
+    con=lambda a: a[:-2] +'20'+a[-2:]  if len(a)>3 else a # solve the problome there is only 2 digit for year
     end['תאריך']=end['תאריך'].apply(con)
     # end['תאריך'] = pd.to_datetime(end['תאריך'], format='%d/%m/%y').dt.date
 
