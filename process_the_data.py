@@ -9,10 +9,33 @@ class build_p1():
         data.columns = data.iloc[0:1].values.tolist()[0]
         self.data = data.iloc[1:]
         # self.data['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות']=pd.to_datetime(self.data['זמן בפועל יציאת רכבות מחיל האוויר על פי המצלמות'], errors='coerce').dt.time
+        self.recover_data()
 
         self.filter()  # Automatically filters during init
         self.create_new()
         self.chose_columns()
+        self.recover_data_correction()
+
+    def recover_data(self):
+        '''
+        Function that need to change only if theres a prbolome with the arival of the train
+        '''
+        data=self.data
+        ls_columns = data.columns.tolist()
+
+
+
+        data.loc[(~(data[ls_columns[1]].isna()))&(data[ls_columns[2]].isna()), ls_columns[2]] = data[~(data[ls_columns[1]].isna())][ls_columns[1]]
+
+        data.loc[(~(data[ls_columns[2]].isna()))&(data[ls_columns[6]].isna()), ls_columns[6]] = data[(~(data[ls_columns[2]].isna()))&(data[ls_columns[6]].isna())][ls_columns[2]]
+
+
+        # data.loc[(~(data[ls_columns[1]].isna()))&(data[ls_columns[6]].isna()), ls_columns[6]] = data[(~(data[ls_columns[1]].isna()))&(data[ls_columns[6]].isna())][ls_columns[1]]
+
+        data.loc[(~(data[ls_columns[1]].isna()))&(data[ls_columns[11]].isna()), ls_columns[11]] = pd.to_datetime('0:00').time()
+
+
+        self.data=data
 
     def filter(self):
         self.data_r = self.data[~self.data['קרון משני'].isna()].reset_index(drop=True)
@@ -142,7 +165,31 @@ class build_p1():
             ['date', 'day', 'cluster', 'lead', 'sec', 'name', 'exit', 'arrivel', 'time', 'from', 'to', 'direction',
              'comments', 'hours', 'TimeC', 'distrbution', 'travel']]
 
-        # print(9)
+    def  recover_data_correction(self):
+        data=self.end
+        # data.loc[(data['time'] == pd.to_datetime('0:00').time()) & (data['exit'] != data['arrivel']), 'exit'] = np.nan
+        #
+        # data.loc[(data['time']==pd.to_datetime('0:00').time())&(data['exit']==data['arrivel']),'arrivel']=np.nan
+
+        data.loc[(data['time'] == pd.to_datetime('0:00').time()) & (pd.to_datetime(data['exit'].astype(str)).dt.time != pd.to_datetime(data['arrivel'].astype(str)).dt.time), 'exit'] = np.nan
+
+        data.loc[(data['time'] == pd.to_datetime('0:00').time()) & (pd.to_datetime(data['exit'].astype(str)).dt.time == pd.to_datetime(data['arrivel'].astype(str)).dt.time), 'arrivel'] = np.nan
+
+        data.loc[(data['time'] == pd.to_datetime('0:00').time()) , 'time'] = np.nan
+
+        self.end=data
+
+    # def recover_data_correction(self):
+    #     '''
+    #     Function that corect the recover and return the time that wasnt apper to nan theres 2 option that not arive that not depart
+    #     :return:
+    #     '''
+    #     data = self.data
+    #     'Option a'
+    #     print(data['time'])
+    #     # data.loc[data['time']]
+    #
+    #     # print(9)
 
 
 class build_p2():
@@ -152,9 +199,30 @@ class build_p2():
         data = data.iloc[:, 18:35]
         data.columns = data.iloc[0:1].values.tolist()[0]
         self.data = data.iloc[1:]
+        self.recover_data()
         self.filter()  # Automatically filters during init
         self.create_new()
         self.chose_columns()
+        self.recover_data_correction()
+
+    def recover_data(self):
+        '''
+        Function that need to change only if theres a prbolome with the arival of the train
+        '''
+        data = self.data
+        ls_columns = data.columns.tolist()
+
+
+        data.loc[(~(data[ls_columns[1]].isna()))&(data[ls_columns[2]].isna()), ls_columns[2]] = data[~(data[ls_columns[1]].isna())][ls_columns[1]]
+
+        data.loc[(~(data[ls_columns[2]].isna()))&(data[ls_columns[6]].isna()), ls_columns[6]] = data[(~(data[ls_columns[2]].isna()))&(data[ls_columns[6]].isna())][ls_columns[2]]
+
+
+        # data.loc[(~(data[ls_columns[1]].isna()))&(data[ls_columns[6]].isna()), ls_columns[6]] = data[(~(data[ls_columns[1]].isna()))&(data[ls_columns[6]].isna())][ls_columns[1]]
+
+        data.loc[(~(data[ls_columns[1]].isna()))&(data[ls_columns[11]].isna()), ls_columns[11]] = pd.to_datetime('0:00').time()
+
+        self.data = data
 
     def filter(self):
         self.data_r = self.data[~self.data['קרון משני'].isna()].reset_index(drop=True)
@@ -295,6 +363,17 @@ class build_p2():
              'comments', 'hours', 'TimeC', 'distrbution', 'travel']]
 
         # print(9)
+
+    def recover_data_correction(self):
+
+        data = self.end
+        data.loc[(data['time'] == pd.to_datetime('0:00').time()) & (pd.to_datetime(data['exit'].astype(str)).dt.time != pd.to_datetime(data['arrivel'].astype(str)).dt.time), 'exit'] = np.nan
+
+        data.loc[(data['time'] == pd.to_datetime('0:00').time()) & (pd.to_datetime(data['exit'].astype(str)).dt.time == pd.to_datetime(data['arrivel'].astype(str)).dt.time), 'arrivel'] = np.nan
+        data.loc[(data['time'] == pd.to_datetime('0:00').time()), 'time'] = np.nan
+
+        self.end = data
+
 
 def all_t(path):
 
